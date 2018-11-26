@@ -8,6 +8,7 @@ package App.Core.Client;
 
 import App.Core.ClientConfig;
 import App.Network.Packet.In.SessionStarted;
+import App.Network.Packet.Out.SessionClosed;
 import App.Network.Packet.PacketHandler;
 import App.Network.Packet.PacketRegistryHandler;
 import java.io.IOException;
@@ -170,6 +171,7 @@ public class Client implements Runnable{
      */
     public void stop() {
         logger.info("Stopping...");
+        this.write(new SessionClosed(this));
         running = false;
         try {
             socket.close();

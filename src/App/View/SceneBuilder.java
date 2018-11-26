@@ -94,17 +94,15 @@ public class SceneBuilder {
             public void handle(ActionEvent event) {
             	
             	try {
-            		/*
-                	 * Connection du client au server
-                	 */
-            		manager.client.connect("localhost", 6789);
-					manager.setScene(stage, manager.GameChooseScene);
-				} catch (IOException e) {
-					//e.printStackTrace();
-					manager.setScene(stage, manager.ErrorScene);
-					
-	            	
-				}
+                    /*
+                     * Connection du client au server
+                     */
+                manager.client.connect("localhost", 6789);
+                    manager.setScene(stage, manager.GameChooseScene);
+                    } catch (IOException e) {
+                        //e.printStackTrace();
+                        manager.setScene(stage, manager.ErrorScene);
+                    }
             	stage.show();
             }
         });

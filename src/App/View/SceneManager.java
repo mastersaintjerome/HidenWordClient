@@ -21,23 +21,26 @@ import javafx.stage.Stage;
  */
 
 public class SceneManager {
-	
-	private ArrayList<KeyBoardButton> clavier = new ArrayList<KeyBoardButton>();
- 	private Text hideWord, joueursPresents, tourJoueur;
- 	
- 	Scene MenuScene, SingleGameScene, MultiGameScene, RoomChooserScene, GameChooseScene, WaitingScene, ErrorScene, VictoryScene, DefeatScene;
- 	
-	Client client = new Client();
-	ClientRoomController crc; 
-	SceneBuilder builder;
-	Stage stage;
-	
-	int tourJoueurI = 0;
-	
-	private ClientRoom currentRoom = null;
-	
-	Scene currentScene;
-	Stack<Scene> prevScenes = new Stack<Scene>();
+    private ArrayList<KeyBoardButton> clavier = new ArrayList<KeyBoardButton>();
+    private Text hideWord, joueursPresents, tourJoueur;
+
+    Scene MenuScene, SingleGameScene, MultiGameScene, RoomChooserScene, GameChooseScene, WaitingScene, ErrorScene, VictoryScene, DefeatScene;
+
+    Client client = new Client();
+    ClientRoomController crc; 
+    SceneBuilder builder;
+    Stage stage;
+
+    int tourJoueurI = 0;
+
+    private ClientRoom currentRoom = null;
+
+    Scene currentScene;
+    Stack<Scene> prevScenes = new Stack<Scene>();
+        
+    public SceneManager(){
+        
+    }
    
     public void victoryButton(Stage stage) {
     	Scene scene = VictoryScene;
@@ -99,11 +102,10 @@ public class SceneManager {
     	}
     }
     
-    public void leaveRoom() 
     /**
      * Actions a effectuer lors d'une sortie de room
      */
-    {
+    public void leaveRoom(){
     	
     	
     	
@@ -112,13 +114,11 @@ public class SceneManager {
     public void changeTour() {
     	String text = "Au tour du joueur " + (tourJoueurI+1);
     	setTourJoueurText(text);
-    	
     	if(tourJoueurI == 0) {
     		griseClavier();
     	} else {
     		restaureClavier();
     	}
-    	
     	tourJoueurI = (tourJoueurI + 1) % 2; 	
     }
   
@@ -159,12 +159,10 @@ public class SceneManager {
     
     public void refreshWaitingText() {
     	if(getCurrentRoom() != null && joueursPresents != null) {
-	    	Integer members = getCurrentRoom().getMembers(),
-	    			membersMax = getCurrentRoom().getMembersMax();
-	    	
-	        String joueurs = "" + members.toString() + "/" + membersMax.toString() + "\n";	        
-	        joueursPresents.setText(joueurs);
-	        
+            Integer members = getCurrentRoom().getMembers(),
+            membersMax = getCurrentRoom().getMembersMax();
+            String joueurs = "" + members.toString() + "/" + membersMax.toString() + "\n";	        
+            joueursPresents.setText(joueurs);	        
         }
     }
     
@@ -180,8 +178,8 @@ public class SceneManager {
     	setStage(primaryStage);
     	
         MenuScene = builder.createMenuScene(primaryStage, 600, 300, Color.CADETBLUE);
-		GameChooseScene = builder.createGameChooseScene(primaryStage, 600, 300, Color.CADETBLUE);
-		RoomChooserScene = builder.createRoomChooserScene(primaryStage, 600, 300, Color.CADETBLUE, crc);
+        GameChooseScene = builder.createGameChooseScene(primaryStage, 600, 300, Color.CADETBLUE);
+        RoomChooserScene = builder.createRoomChooserScene(primaryStage, 600, 300, Color.CADETBLUE, crc);
         WaitingScene = builder.createWaitingScene(primaryStage, 600, 300, Color.CADETBLUE, joueursPresents);
         SingleGameScene = builder.createSingleGameScene(primaryStage, 600, 300, Color.CADETBLUE);
         MultiGameScene = builder.createMultiGameScene(primaryStage, 600, 300, Color.CADETBLUE);
@@ -207,26 +205,26 @@ public class SceneManager {
     
     public void setHidenWord(String word) {
     	if(this.hideWord != null)
-    		this.hideWord.setText(word);
+            this.hideWord.setText(word);
     }
     
     public void setTourJoueurText(String text) {
     	if(getTourJoueur() != null)
-    		getTourJoueur().setText(text);
+            getTourJoueur().setText(text);
     }
     
     public String getHidenWord() {
     	if(hideWord != null)
-    		return this.hideWord.getText();
+            return this.hideWord.getText();
     	return null;
     }
     
     public void setHideWord(Text word) {
-    		this.hideWord = word;
+        this.hideWord = word;
     }
     
     public Text getHideWord() {
-    		return this.hideWord;
+        return this.hideWord;
     }
     
     public Text getTourJoueur() {
@@ -238,26 +236,26 @@ public class SceneManager {
     }
     
     public void setJoueursPresents(Text word) {
-		this.joueursPresents = word;
-	}
+        this.joueursPresents = word;
+    }
 	
-	public Text getJoueursPresents() {
-			return this.joueursPresents;
-	}
+    public Text getJoueursPresents() {
+        return this.joueursPresents;
+    }
 
-	public ArrayList<KeyBoardButton> getClavier() {
-		return clavier;
-	}
+    public ArrayList<KeyBoardButton> getClavier() {
+        return clavier;
+    }
 
-	public void setClavier(ArrayList<KeyBoardButton> clavier) {
-		this.clavier = clavier;
-	}
+    public void setClavier(ArrayList<KeyBoardButton> clavier) {
+        this.clavier = clavier;
+    }
 
-	public ClientRoom getCurrentRoom() {
-		return currentRoom;
-	}
+    public ClientRoom getCurrentRoom() {
+        return currentRoom;
+    }
 
-	public void setCurrentRoom(ClientRoom currentRoomId) {
-		this.currentRoom = currentRoomId;
-	}
+    public void setCurrentRoom(ClientRoom currentRoomId) {
+        this.currentRoom = currentRoomId;
+    }
 }
