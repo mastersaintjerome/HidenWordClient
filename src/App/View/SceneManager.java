@@ -54,6 +54,14 @@ public class SceneManager {
         return client.isRunning();
     }
     
+    public void clientSendChar(char c){
+        client.clientSendChar(c);
+    }
+    
+    public void clientStartSoloGame(){
+        client.clientStartSoloGame();
+    }
+    
     public void victoryButton(Stage stage) {
     	Scene scene = VictoryScene;
     	stage.setScene(scene);

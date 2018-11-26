@@ -8,7 +8,9 @@ package App.Network;
 
 import App.Core.ClientConfig;
 import App.Network.Packet.In.SessionStarted;
+import App.Network.Packet.Out.GameTurnCharSend;
 import App.Network.Packet.Out.SessionClosed;
+import App.Network.Packet.Out.StartSoloGame;
 import App.Network.Packet.PacketHandler;
 import App.Network.Packet.PacketRegistryHandler;
 import java.io.IOException;
@@ -147,6 +149,14 @@ public class Client implements Runnable{
 
     public void setPlayerGameState(PlayerGameState playerGameState) {
         this.playerGameState = playerGameState;
+    }
+    
+    public void clientSendChar(char c){
+        this.write(new GameTurnCharSend(this,c));
+    }
+    
+    public void clientStartSoloGame(){
+        this.write(new StartSoloGame(this));
     }
     
     /**

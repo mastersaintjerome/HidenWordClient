@@ -5,6 +5,7 @@
  */
 package App.View;
 
+import App.Core.ClientRoom;
 import App.Network.Client;
 import java.io.IOException;
 import javafx.event.ActionEvent;
@@ -20,7 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * PErmet de créer les scenes de la partie graphique du client.
+ * Permet de créer les scenes de la partie graphique du client.
  *
  * @author Gaëtan Perrot, Barbarian
  */
@@ -56,12 +57,8 @@ public class SceneBuilder {
                     if (manager.clientIsRunning()) {
                         btn.isUsed = !btn.isUsed;
                         btn.disableButton(btn.isUsed);
+                        manager.clientSendChar(btn.getButtonCharactere());
                         manager.changeTour();
-                        //btn.getButtonCharactere()
-                        /*
-                         * Inserer le code pour envoyer un caractere
-                         * 
-                         */
                     }
                 }
             });
@@ -167,20 +164,11 @@ public class SceneBuilder {
         btnSolo.setOnAction(new EventHandler<ActionEvent>() {
             Stage stage = primaryStage;
 
+            @Override
             public void handle(ActionEvent event) {
-                try {
-                    manager.client.sendToServer("Solo");
-                    /*
-                     * Inserer le code pour Jouer en SOLO
-                     * 
-                     */
-
-                    manager.setScene(stage, manager.SingleGameScene);
-                    stage.show();
-                } catch (IOException e) {
-                    //e.printStackTrace();
-                }
-
+                manager.clientStartSoloGame();
+                manager.setScene(stage, manager.SingleGameScene);
+                stage.show();
             }
         });
         root.getChildren().add(btnSolo);
@@ -197,17 +185,13 @@ public class SceneBuilder {
             Stage stage = primaryStage;
 
             public void handle(ActionEvent event) {
-                try {
+               /* try {
                     manager.client.sendToServer("Multi");
-                    /*
-                     * Inserer le code pour Jouer en MULTI
-                     * 
-                     */
                     manager.setScene(stage, manager.RoomChooserScene);
-
                 } catch (IOException e) {
-                    //e.printStackTrace();
+                    e.printStackTrace();
                 }
+                */
                 stage.show();
             }
         });
@@ -225,27 +209,25 @@ public class SceneBuilder {
             Stage stage = primaryStage;
 
             public void handle(ActionEvent event) {
+                /*
                 try {
                     manager.client.sendToServer("Duel");
-                    /*
-                     * Inserer le code pour Jouer en DUEL
-                     * 
-                     */
                     manager.setScene(stage, manager.RoomChooserScene);
 
                 } catch (IOException e) {
                     //e.printStackTrace();
                 }
+                */
                 stage.show();
             }
         });
         root.getChildren().add(btnDuel);
     }
 
-    public void createErrorButtons(final Stage primaryStage, Group root) /**
+    /**
      * Création des bouttons du menu d'erreur
      */
-    {
+    public void createErrorButtons(final Stage primaryStage, Group root) {
         Button btnRetry = new Button();
         btnRetry.setText("Ressayer");
         btnRetry.setFont(new Font(25));
@@ -257,15 +239,8 @@ public class SceneBuilder {
             Stage stage = primaryStage;
 
             public void handle(ActionEvent event) {
-                try {
-                    manager.client.connect("localhost", 6789);
-                    /*
-                     * Inserer le code pour une nouvelle tentative de connection
-                     * 
-                     */
-                    manager.setScene(stage, manager.MenuScene);
-                } catch (IOException e) {
-                    //e.printStackTrace();
+                if(!manager.clientIsRunning()){
+                    manager.clientConnect();
                 }
                 stage.show();
             }
@@ -536,10 +511,10 @@ public class SceneBuilder {
         return ErrorScene;
     }
 
-    public Scene createVictoryScene(Stage primaryStage, int width, int height, Color color) /**
+    /**
      * Création du la scene d'erreur
      */
-    {
+    public Scene createVictoryScene(Stage primaryStage, int width, int height, Color color) {
         Group root = new Group();
         Scene VictoryScene = new Scene(root, width, height, color);
 
@@ -552,10 +527,10 @@ public class SceneBuilder {
         return VictoryScene;
     }
 
-    public Scene createDefeatScene(Stage primaryStage, int width, int height, Color color) /**
+    /**
      * Création du la scene d'erreur
      */
-    {
+    public Scene createDefeatScene(Stage primaryStage, int width, int height, Color color) {
         Group root = new Group();
         Scene DefeatScene = new Scene(root, width, height, color);
 
