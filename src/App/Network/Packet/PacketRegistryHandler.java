@@ -6,7 +6,7 @@
 
 package App.Network.Packet;
 
-import App.Core.Client.Client;
+import App.Network.Client;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;

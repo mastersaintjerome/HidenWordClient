@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package App.View;
 
 import App.Core.ClientRoom;
@@ -13,11 +12,11 @@ import java.util.ArrayList;
  * Permet de sauvegarder les Rooms au niveau de client. 
  * @author Gaëtan Perrot, Barbarian
  */
-
 public final class ClientRoomController {
+
     private ArrayList<ClientRoom> clientRooms = new ArrayList<ClientRoom>();
 
-    public ClientRoomController(){
+    public ClientRoomController() {
 
         addRoom(1, 1);
         addRoom(2, 1);
@@ -28,42 +27,42 @@ public final class ClientRoomController {
         getAllRoomsFromServers();
     }
 
-    public void getAllRoomsFromServers(){
+    public void getAllRoomsFromServers() {
         /**
          * Ajouter la récupérations de rooms
          */
     }
 
-    public ArrayList<ClientRoom> getClientRooms(){
+    public ArrayList<ClientRoom> getClientRooms() {
         return this.clientRooms;
     }
 
-    public int numberOfRooms(){
+    public int numberOfRooms() {
         return this.clientRooms.size();
     }
 
-    public void addRoom(ClientRoom cr){
+    public void addRoom(ClientRoom cr) {
         clientRooms.add(cr);
     }
 
-    public void addRoom(int id, int members){
+    public void addRoom(int id, int members) {
         clientRooms.add(new ClientRoom(id, members));
     }
-    
+
     public void connectToRoom(ClientRoom room) {
-    	room.addMember();
-    	ClientRoom roomBis = getRoom(room.getId());
-    	roomBis.addMember();
+        room.addMember();
+        ClientRoom roomBis = getRoom(room.getId());
+        roomBis.addMember();
     }
 
-    public ClientRoom getRoom(int id){
+    public ClientRoom getRoom(int id) {
         ClientRoom room = null;
-        for(ClientRoom cR : clientRooms){
-            if(cR.isRoom(id)){
+        for (ClientRoom cR : clientRooms) {
+            if (cR.isRoom(id)) {
                 room = cR;
             }
         }
         return room;
     }
-   
+
 }

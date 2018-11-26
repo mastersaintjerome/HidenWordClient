@@ -6,7 +6,7 @@
 
 package App.Network.Packet.Out;
 
-import App.Core.Client.Client;
+import App.Network.Client;
 
 /**
  * Packet send when client start duel game

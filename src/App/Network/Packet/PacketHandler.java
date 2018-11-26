@@ -6,7 +6,7 @@
 
 package App.Network.Packet;
 
-import App.Core.Client.Client;
+import App.Network.Client;
 
 /**
  * Handle incoming packets

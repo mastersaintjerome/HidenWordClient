@@ -6,7 +6,7 @@
 
 package App.Network.Packet.Out;
 
-import App.Core.Client.Client;
+import App.Network.Client;
 
 /**
  * Packet send when a client want to create a duel game room

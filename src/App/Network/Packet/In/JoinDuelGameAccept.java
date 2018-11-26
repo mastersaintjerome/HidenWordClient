@@ -6,7 +6,7 @@
 
 package App.Network.Packet.In;
 
-import App.Core.Client.Client;
+import App.Network.Client;
 import App.Network.Packet.Out.StartDuelGame;
 import App.Network.Packet.PacketHandler;
 import java.util.logging.Level;

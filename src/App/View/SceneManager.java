@@ -10,6 +10,8 @@ import App.Core.ClientRoom;
 import App.Network.Client;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -23,10 +25,11 @@ import javafx.stage.Stage;
 public class SceneManager {
     private ArrayList<KeyBoardButton> clavier = new ArrayList<KeyBoardButton>();
     private Text hideWord, joueursPresents, tourJoueur;
+    final private ExecutorService executor = Executors.newSingleThreadExecutor();
 
     Scene MenuScene, SingleGameScene, MultiGameScene, RoomChooserScene, GameChooseScene, WaitingScene, ErrorScene, VictoryScene, DefeatScene;
 
-    Client client = new Client();
+    private final Client client;
     ClientRoomController crc; 
     SceneBuilder builder;
     Stage stage;
@@ -38,10 +41,19 @@ public class SceneManager {
     Scene currentScene;
     Stack<Scene> prevScenes = new Stack<Scene>();
         
-    public SceneManager(){
-        
+    public SceneManager(Client client){
+        this.client = client;
     }
    
+    public void clientConnect(){
+        client.connect();
+        executor.submit(client);
+    }
+    
+    public boolean clientIsRunning(){
+        return client.isRunning();
+    }
+    
     public void victoryButton(Stage stage) {
     	Scene scene = VictoryScene;
     	stage.setScene(scene);
