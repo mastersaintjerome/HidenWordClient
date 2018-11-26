@@ -13,9 +13,6 @@ import App.Network.Packet.PacketRegistryHandler;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,6 +21,7 @@ import java.util.logging.Logger;
  * @author Gaëtan Perrot, Barbarian
  */
 public class Client implements Runnable{
+    public final static char END_OF_PACKET = '\n';
     final private Logger logger;
     final private ClientConfig config;
     private String sentence;
@@ -64,7 +62,7 @@ public class Client implements Runnable{
     public void write(Object msg) {
         try {
             logger.info("Send >> " + msg);
-            socket.getOutputStream().write((msg.toString() + "\n").getBytes());
+            socket.getOutputStream().write((msg.toString() + END_OF_PACKET).getBytes());
             socket.getOutputStream().flush();
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
@@ -82,13 +80,13 @@ public class Client implements Runnable{
         StringBuilder builder = new StringBuilder(255);
         char c;
         try {
-            while ((c = (char) socket.getInputStream().read()) > 0) {
+            while ((c = (char) socket.getInputStream().read()) > 0 && (c != END_OF_PACKET)) {
                 builder.append(c);
+                logger.log(Level.INFO, "char : {0}", c);
             }
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Cannot read from server", e);
         }
-
         String packet = builder.toString();
 
         logger.info("Recv << " + packet);
@@ -115,6 +113,7 @@ public class Client implements Runnable{
     public void run() {
         running = true;
         while (running) {
+            logger.log(Level.INFO, "Start reading from Server");
             String packet = read();
             if (!packet.isEmpty()) {
                 try {
