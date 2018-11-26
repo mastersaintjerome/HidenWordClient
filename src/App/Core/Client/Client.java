@@ -7,6 +7,8 @@
 package App.Core.Client;
 
 import App.Core.ClientConfig;
+import App.Network.Packet.In.SessionStarted;
+import App.Network.Packet.PacketHandler;
 import App.Network.Packet.PacketRegistryHandler;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -29,23 +31,31 @@ public class Client implements Runnable{
     private Socket socket;
     volatile private boolean running  = false;
     private PacketRegistryHandler handler;
-    
-    final private ExecutorService executor = Executors.newSingleThreadExecutor();
-    private Future future;
 
     public Client(ClientConfig config){
         logger = Logger.getLogger(Client.class.getName());
         this.config = config;
     }
-
+    
     public void connect() {
         socket = new Socket();
         try {
-            socket.connect(new InetSocketAddress(config.serverHost(), config.serverPort()));
+            int port = config.serverPort();
+            String host = config.serverHost();
+            socket.connect(new InetSocketAddress(host, port));
+            logger.log(Level.INFO, "Connecting Client to " + host + " at port : {0}", port);
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Cannot connect to server", e);
         }
-        //setHandler(new AuthenticationHandler());
+        setHandler(handler());
+    }
+    
+    public PacketRegistryHandler handler(){
+        PacketRegistryHandler packetRegistryHandler = new PacketRegistryHandler(new PacketHandler[]{
+            // @todo Set the input packets here
+            new SessionStarted()
+        });
+        return packetRegistryHandler;
     }
     
     /**
@@ -61,9 +71,8 @@ public class Client implements Runnable{
         }
     }
     
-        public void setHandler(PacketRegistryHandler handler) {
+    public void setHandler(PacketRegistryHandler handler) {
         this.handler = handler;
-        executor.submit(this);
     }
 
     /**
@@ -97,7 +106,6 @@ public class Client implements Runnable{
     public void stop() {
         logger.info("Stopping...");
         running = false;
-        executor.shutdown();
         try {
             socket.close();
         } catch (IOException e) {}
