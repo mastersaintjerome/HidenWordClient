@@ -7,7 +7,7 @@
 package App.Core.Client;
 
 import App.Core.ClientConfig;
-import App.Network.Packet.PacketHandler;
+import App.Network.Packet.PacketRegistryHandler;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -28,7 +28,7 @@ public class Client implements Runnable{
     private String pseudo;
     private Socket socket;
     volatile private boolean running  = false;
-    private PacketHandler handler;
+    private PacketRegistryHandler handler;
     
     final private ExecutorService executor = Executors.newSingleThreadExecutor();
     private Future future;
@@ -61,7 +61,7 @@ public class Client implements Runnable{
         }
     }
     
-        public void setHandler(PacketHandler handler) {
+        public void setHandler(PacketRegistryHandler handler) {
         this.handler = handler;
         executor.submit(this);
     }
@@ -87,7 +87,7 @@ public class Client implements Runnable{
         return packet;
     }
 
-    public PacketHandler getHandler() {
+    public PacketRegistryHandler getHandler() {
         return handler;
     }
     

@@ -20,4 +20,10 @@ public interface PacketHandler {
      * @param packet The received packet
      */
     public void handle(Client client, String packet);
+    
+    /**
+     * The handled packet code
+     * @return the packet code
+     */
+    public String code();
 }

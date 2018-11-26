@@ -8,7 +8,7 @@ package App.Core;
 
 /**
  *
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbarian
  */
 public class ClientConfig {
     final private ServerConfig serverConfig;
