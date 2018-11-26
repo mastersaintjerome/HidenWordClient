@@ -23,16 +23,18 @@ import javafx.stage.Stage;
 public class SceneManager {
 	
 	private ArrayList<KeyBoardButton> clavier = new ArrayList<KeyBoardButton>();
- 	private Text hideWord, joueursPresents;
+ 	private Text hideWord, joueursPresents, tourJoueur;
  	
- 	Scene MenuScene, GameScene, RoomChooserScene, GameChooseScene, WaitingScene, ErrorScene, VictoryScene, DefeatScene;
+ 	Scene MenuScene, SingleGameScene, MultiGameScene, RoomChooserScene, GameChooseScene, WaitingScene, ErrorScene, VictoryScene, DefeatScene;
  	
 	Client client = new Client();
 	ClientRoomController crc; 
 	SceneBuilder builder;
 	Stage stage;
 	
-	private ClientRoom currentRoom = null; 
+	int tourJoueurI = 0;
+	
+	private ClientRoom currentRoom = null;
 	
 	Scene currentScene;
 	Stack<Scene> prevScenes = new Stack<Scene>();
@@ -49,13 +51,45 @@ public class SceneManager {
 		currentScene = scene;
     }
     
-    public void ResetKeyBoard() {
+    public void griseClavier() {
+    	System.out.println("griseClavier");
+    	for(KeyBoardButton btn : clavier) {
+    		btn.setDisable(true);
+    	}
+    }
+    
+    public void restaureClavier() {
+    	System.out.println("griseClavier");
+
+    	for(KeyBoardButton btn : clavier) {
+    		if( ! btn.isUsed )
+    			btn.setDisable(false);
+    	}
+    }
+    
+    public void resetKeyBoard() 
+    /**
+     * Restaure le clavier en mettant toutes les touches actives.
+     */
+    {
     	for(KeyBoardButton btn : getClavier()) {
     		btn.isUsed = false;
         	btn.disableButton(false);
     	}
+    	
     }
 
+    public void DeseableKey(char c) {
+    	for (KeyBoardButton btn : getClavier()) {
+    		if(btn.getButtonCharactere() == c) {
+    			if( ! btn.isDisabled() ) {
+    				btn.isUsed = true;
+    				btn.disableButton(true);
+    			}
+    		}
+    	}
+    }
+    
     public void returnLastScene(Stage stage) {
     	Scene scene = prevScenes.pop();
     	
@@ -74,33 +108,45 @@ public class SceneManager {
     	
     	
     }
+    
+    public void changeTour() {
+    	String text = "Au tour du joueur " + (tourJoueurI+1);
+    	setTourJoueurText(text);
+    	
+    	if(tourJoueurI == 0) {
+    		griseClavier();
+    	} else {
+    		restaureClavier();
+    	}
+    	
+    	tourJoueurI = (tourJoueurI + 1) % 2; 	
+    }
   
     public void enterScene() 
     /**
-     * Actions a effectuer lorsqu'on entre dans une scene. 
+     * Actions à effectuer lorsqu'on entre dans une scene. 
      */
     {
     	if(currentScene == MenuScene || currentScene == ErrorScene) {
     		prevScenes.clear();
     	}
-    	else if(currentScene == GameScene) {
-    		ResetKeyBoard();
+    	else if(currentScene == SingleGameScene) {
+    		resetKeyBoard();
     		leaveRoom();
     	}else if(currentScene == WaitingScene) {
-    		if(getCurrentRoom() != null) {
-	    		//crc.connectToRoom(getCurrentRoom());
-	    		
-	    		//setCurrentRoom(crc.getRoom(getCurrentRoom().getId()));
-	    		getCurrentRoom().addMember();
-	    		if(getCurrentRoom().getMembers() < this.getCurrentRoom().getMembersMax()) {
-	    			refreshWaitingText();
-	    		}
-	    		else {
-	    	        setScene(getStage(), GameScene);
-	    	        prevScenes.pop();
-	    	        prevScenes.push(RoomChooserScene);
-	    		}
+    	
+    		if(getCurrentRoom() != null)  {
+		    	getCurrentRoom().addMember();
+		    	if(getCurrentRoom().getMembers() < this.getCurrentRoom().getMembersMax()) {
+		    		refreshWaitingText();
+		    	}
+		    	else {
+		    		setScene(getStage(), MultiGameScene);
+		    		prevScenes.pop();
+		    	    prevScenes.push(RoomChooserScene);
+		    	}
     		}
+    		
     	}else {
     		Scene prev = prevScenes.pop();
     		if(prev == VictoryScene || prev == DefeatScene) {
@@ -116,13 +162,10 @@ public class SceneManager {
 	    	Integer members = getCurrentRoom().getMembers(),
 	    			membersMax = getCurrentRoom().getMembersMax();
 	    	
-	        String joueurs = "" + members.toString() + "/" + membersMax.toString() + "\n";
-	        System.out.println(joueurs);
-	        
+	        String joueurs = "" + members.toString() + "/" + membersMax.toString() + "\n";	        
 	        joueursPresents.setText(joueurs);
 	        
         }
-    	System.out.println(joueursPresents);
     }
     
     public void setScene(Stage stage, Scene scene) {
@@ -140,7 +183,8 @@ public class SceneManager {
 		GameChooseScene = builder.createGameChooseScene(primaryStage, 600, 300, Color.CADETBLUE);
 		RoomChooserScene = builder.createRoomChooserScene(primaryStage, 600, 300, Color.CADETBLUE, crc);
         WaitingScene = builder.createWaitingScene(primaryStage, 600, 300, Color.CADETBLUE, joueursPresents);
-		GameScene = builder.createGameScene(primaryStage, 600, 300, Color.CADETBLUE, hideWord);
+        SingleGameScene = builder.createSingleGameScene(primaryStage, 600, 300, Color.CADETBLUE);
+        MultiGameScene = builder.createMultiGameScene(primaryStage, 600, 300, Color.CADETBLUE);
         ErrorScene = builder.createErrorScene(primaryStage, 600, 300, Color.CRIMSON);
         VictoryScene = builder.createVictoryScene(primaryStage, 600, 300, Color.CADETBLUE);
         DefeatScene = builder.createDefeatScene(primaryStage, 600, 300, Color.CADETBLUE);
@@ -148,8 +192,9 @@ public class SceneManager {
         setScene(primaryStage, MenuScene);
         primaryStage.show();
         
-        this.setHidenWord("_ _ _");
-        System.out.println("Init ended");
+        setHidenWord("_ _ _");
+        setTourJoueurText("Au tour du joueur " + (tourJoueurI+1));
+        
     }
     
     public void setStage(Stage stage) {
@@ -165,6 +210,11 @@ public class SceneManager {
     		this.hideWord.setText(word);
     }
     
+    public void setTourJoueurText(String text) {
+    	if(getTourJoueur() != null)
+    		getTourJoueur().setText(text);
+    }
+    
     public String getHidenWord() {
     	if(hideWord != null)
     		return this.hideWord.getText();
@@ -177,6 +227,14 @@ public class SceneManager {
     
     public Text getHideWord() {
     		return this.hideWord;
+    }
+    
+    public Text getTourJoueur() {
+    	return this.tourJoueur;
+    }
+    
+    public void setTourJoueurText(Text tour) {
+    	this.tourJoueur = tour;
     }
     
     public void setJoueursPresents(Text word) {

@@ -24,15 +24,21 @@ public class Client implements Runnable{
     public final static char END_OF_PACKET = '\n';
     final private Logger logger;
     final private ClientConfig config;
-    private String sentence;
-    private String pseudo;
-    private Socket socket;
     volatile private boolean running  = false;
     private PacketRegistryHandler handler;
+    
+    private String searchWord;
+    private String pseudo;
+    private Socket socket;
+    private boolean isTurn;
+    private boolean gameRun;
+    private PlayerGameState playerGameState;
 
     public Client(ClientConfig config){
         logger = Logger.getLogger(Client.class.getName());
         this.config = config;
+        isTurn = false;
+        gameRun = false;
     }
     
     public void connect() {
@@ -94,8 +100,69 @@ public class Client implements Runnable{
         return packet;
     }
 
+    public String getSearchWord() {
+        return searchWord;
+    }
+
+    public void setSearchWord(String searchWord) {
+        this.searchWord = searchWord;
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public boolean isIsTurn() {
+        return isTurn;
+    }
+
+    public void setIsTurn(boolean isTurn) {
+        this.isTurn = isTurn;
+    }
+    
     public PacketRegistryHandler getHandler() {
         return handler;
+    }
+
+    public boolean isGameRun() {
+        return gameRun;
+    }
+
+    public void setGameRun(boolean gameRun) {
+        this.gameRun = gameRun;
+    }
+
+    public PlayerGameState getPlayerGameState() {
+        return playerGameState;
+    }
+
+    public void setPlayerGameState(PlayerGameState playerGameState) {
+        this.playerGameState = playerGameState;
+    }
+    
+    /**
+     * Game State of the player
+     */
+    public enum PlayerGameState {
+
+        /**
+         * Win the game
+         */
+        WIN,
+
+        /**
+         * Lost the game
+         */
+        LOST,
+        
+        /**
+         * Game still running for the player
+         */
+        RUN
     }
     
     /**

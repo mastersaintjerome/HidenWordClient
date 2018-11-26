@@ -26,139 +26,147 @@ import javafx.stage.Stage;
  */
 
 public class SceneBuilder {
-    SceneManager manager;
-    
-    public SceneBuilder(SceneManager manager) {
-        this.manager = manager;
+	SceneManager manager;
+	
+	public SceneBuilder(SceneManager manager) {
+		this.manager = manager;
+	}
+	
+	public void createClavier(Group root, int initPosX, int initPosY)
+	/*
+	 * Création d'un clavier 
+	 */
+	{
+    	int ecartX = 0, ecartY = 0; 
+    	int i;
+    	for(i = 0; i < 26; i++) {
+    		char c = (char) ((char) i + 65); 
+    		String s = ""; 
+    		s += c + " ";
+    		
+    		final KeyBoardButton btn = new KeyBoardButton(c);
+    		
+    		btn.setPrefSize(35, 30);
+    		
+    		if(i%7 == 0) {
+    			ecartX = 0;
+    			ecartY += 1;
+    		}
+    		
+            btn.setLayoutPositionWithText(initPosX + (35 * ecartX++), initPosY + (30 * ecartY), s);
+            
+            btn.setOnAction(new EventHandler<ActionEvent>() {
+            	
+                public void handle(ActionEvent event) {
+                	
+                	if(manager.client.isConnected()) {
+                		//client.sendToServer(btn.getButtonCharactere() + '\n');
+                		btn.isUsed = ! btn.isUsed;
+                    	btn.disableButton(btn.isUsed);
+                    	manager.changeTour();
+                    	
+                    	/*
+                    	 * Inserer le code pour envoyer un caractere
+                    	 * 
+                    	 */
+                	}
+                }
+            });
+            manager.getClavier().add(btn);
+            root.getChildren().add(btn); 
+		}
     }
-    /*
-     * Création d'un clavier 
-     */
-    public void createClavier(Group root, int initPosX, int initPosY){
-    int ecartX = 0, ecartY = 0; 
-    int i;
-    for(i = 0; i < 26; i++) {
-            char c = (char) ((char) i + 65); 
-            String s = ""; 
-            s += c + " ";
+    
+	public void createMenuButtons(final Stage primaryStage, Group root) 
+	/*
+	 * Création des boutons du menu
+	 */
+	{
+		Button btnPlay = new Button();
+		btnPlay.setText("Jouer");
+		btnPlay.setFont(new Font(25));
+		
+		btnPlay.setLayoutX(100);
+		btnPlay.setLayoutY(200);
 
-            final KeyBoardButton btn = new KeyBoardButton(c);
-
-            btn.setPrefSize(35, 30);
-
-            if(i%7 == 0) {
-                    ecartX = 0;
-                    ecartY += 1;
-            }
-
-        btn.setLayoutPositionWithText(initPosX + (35 * ecartX++), initPosY + (30 * ecartY), s);
-
-        btn.setOnAction(new EventHandler<ActionEvent>() {
+		btnPlay.setOnAction(new EventHandler<ActionEvent>() {
+			Stage stage = primaryStage;
             public void handle(ActionEvent event) {
-
-                    if(manager.client.isConnected()) {
-                        //client.sendToServer(btn.getButtonCharactere() + '\n');
-                        btn.isUsed = ! btn.isUsed;
-                        btn.disableButton(btn.isUsed);
-                        /*
-                         * Inserer le code pour envoyer un caractere
-                         * 
-                         */
-                    }
+            	
+            	try {
+            		/*
+                	 * Connection du client au server
+                	 */
+            		manager.client.connect("localhost", 6789);
+					manager.setScene(stage, manager.GameChooseScene);
+				} catch (IOException e) {
+					//e.printStackTrace();
+					manager.setScene(stage, manager.ErrorScene);
+					
+	            	
+				}
+            	stage.show();
             }
         });
-        manager.getClavier().add(btn);
-        root.getChildren().add(btn); 
+        root.getChildren().add(btnPlay); 
+        
+        Button btnQuit = new Button();
+        btnQuit.setText("Quitter");
+        btnQuit.setFont(new Font(25));
+		
+        btnQuit.setLayoutX(400);
+        btnQuit.setLayoutY(200);
+
+        btnQuit.setOnAction(new EventHandler<ActionEvent>() {
+        	
+            public void handle(ActionEvent event) {
+            	System.exit(0);
             }
-}
+        });
+        root.getChildren().add(btnQuit); 
+    }
+	
+	public void createRoomChooserButtons(final Stage primaryStage, Group root, ClientRoomController crc)
+	/*
+	 * Création des boutons permettant de choisir la Room a acceder.
+	 */
+	{
+		if(crc != null){
+			
+			ScrollPane s1 = new ScrollPane();
+			s1.setLayoutX(148);
+			s1.setLayoutY(60);
+			s1.setPrefSize(327, 240);
+			
+			VBox vBox = new VBox();
+			 
+			for(final ClientRoom room : crc.getClientRooms()){
+				Button btn = new Button();
 
-    public void createMenuButtons(final Stage primaryStage, Group root) 
-    /*
-     * Création des boutons du menu
-     */
-    {
-            Button btnPlay = new Button();
-            btnPlay.setText("Jouer");
-            btnPlay.setFont(new Font(25));
+				String roomLabel = "Room " + room.getId() + "    Joueur(s) : " + room.getMembers() + "/" + room.getMembersMax();
 
-            btnPlay.setLayoutX(100);
-            btnPlay.setLayoutY(200);
+				btn.setPrefSize(305, 40);
+        		btn.setText(roomLabel);
+        		btn.setFont(new Font(23));
 
-            btnPlay.setOnAction(new EventHandler<ActionEvent>() {
-                    Stage stage = primaryStage;
-        public void handle(ActionEvent event) {
-
-            try {
-                    /*
-                     * Connection du client au server
-                     */
-                    manager.client.connect("localhost", 6789);
-                                    manager.setScene(stage, manager.GameChooseScene);
-                            } catch (IOException e) {
-                                    //e.printStackTrace();
-                                    manager.setScene(stage, manager.ErrorScene);
-
-
-                            }
-            stage.show();
-        }
-    });
-    root.getChildren().add(btnPlay); 
-
-    Button btnQuit = new Button();
-    btnQuit.setText("Quitter");
-    btnQuit.setFont(new Font(25));
-
-    btnQuit.setLayoutX(400);
-    btnQuit.setLayoutY(200);
-
-    btnQuit.setOnAction(new EventHandler<ActionEvent>() {
-
-        public void handle(ActionEvent event) {
-            System.exit(0);
-        }
-    });
-    root.getChildren().add(btnQuit); 
-}
-
-    public void createRoomChooserButtons(final Stage primaryStage, Group root, ClientRoomController crc)
-    /*
-     * Création des boutons permettant de choisir la Room a acceder.
-     */
-    {
-            if(crc != null){
-
-                    ScrollPane s1 = new ScrollPane();
-                    s1.setLayoutX(148);
-                    s1.setLayoutY(60);
-                    s1.setPrefSize(327, 240);
-
-                    VBox vBox = new VBox();
-
-                    for(final ClientRoom room : crc.getClientRooms()){
-                        Button btn = new Button();
-                        String roomLabel = "Room " + room.getId() + "    Joueur(s) : " + room.getMembers() + "/" + room.getMembersMax();
-                        btn.setPrefSize(305, 40);
-                        btn.setText(roomLabel);
-                        btn.setFont(new Font(23));
-
-                        btn.setOnAction(new EventHandler<ActionEvent>() {
+        		btn.setOnAction(new EventHandler<ActionEvent>() {
                             ClientRoom cRoom = room;
                             public void handle(ActionEvent event) {
-                                /**
-                                 * Ajouter le code pour acceder a la room i
-                                 */
-                                        manager.setCurrentRoom(cRoom);
-                                        manager.setScene(primaryStage, manager.WaitingScene);
+                            /**
+                             * Ajouter le code pour acceder a la room i
+                             */
+                            manager.setCurrentRoom(cRoom);
+                            manager.setScene(primaryStage, manager.WaitingScene);
 
-                            }
-                        });
-                        vBox.getChildren().add(btn); 
-                    }
-                    s1.setContent(vBox);
-                    root.getChildren().add(s1); 
-            }
-    }
+            		}
+       			});
+        		vBox.getChildren().add(btn); 
+
+			}
+			s1.setContent(vBox);
+			root.getChildren().add(s1); 
+		}
+	}
 
 	public void createChooseButtons(final Stage primaryStage, Group root)
 	/*
@@ -186,7 +194,7 @@ public class SceneBuilder {
                 	 * 
                 	 */
 					
-					manager.setScene(stage, manager.GameScene);
+					manager.setScene(stage, manager.SingleGameScene);
 					stage.show();
 				} catch (IOException e) {
 					//e.printStackTrace();
@@ -214,6 +222,7 @@ public class SceneBuilder {
                 	 * 
                 	 */
             		manager.setScene(stage, manager.RoomChooserScene);
+            		
 				} catch (IOException e) {
 					//e.printStackTrace();
 				}
@@ -241,6 +250,7 @@ public class SceneBuilder {
                 	 * 
                 	 */
 					manager.setScene(stage, manager.RoomChooserScene);
+					
 				} catch (IOException e) {
 					//e.printStackTrace();
 				}
@@ -397,7 +407,7 @@ public class SceneBuilder {
         root.getChildren().add(text); 
     }
     
-	public Scene createGameScene(Stage stage, int width, int height, Color color, Text hideWord)
+	public Scene createSingleGameScene(Stage stage, int width, int height, Color color)
 	/**
 	 * Création de la scene de jeu.
 	 */
@@ -405,11 +415,10 @@ public class SceneBuilder {
     	Group root = new Group();
     	Scene GameScene = new Scene(root, width, height, color);
         
-        //createTextInArea(root,"", 50, 80, 35, hideWord);
         createClavier(root, 40, 100);
         addReturnButton(stage, root);
         
-        hideWord = new Text();
+        Text hideWord = new Text();
     	
         hideWord.setFont(new Font(35));
         hideWord.setText("");
@@ -419,8 +428,44 @@ public class SceneBuilder {
     	
         root.getChildren().add(hideWord); 
         
-        System.out.println(hideWord);
         manager.setHideWord(hideWord);
+
+        return GameScene;
+    }
+	
+	public Scene createMultiGameScene(Stage stage, int width, int height, Color color)
+	/**
+	 * Création de la scene de jeu.
+	 */
+	{
+    	Group root = new Group();
+    	Scene GameScene = new Scene(root, width, height, color);
+        
+        createClavier(root, 40, 100);
+        addReturnButton(stage, root);
+        
+        Text hideWord = new Text();
+    	
+        hideWord.setFont(new Font(35));
+        hideWord.setText("A votre Tour");
+		
+        hideWord.setLayoutX(50);
+        hideWord.setLayoutY(80);
+    	
+        root.getChildren().add(hideWord); 
+        
+        Text tourJoueur = new Text();
+    	
+        tourJoueur.setFont(new Font(15));
+        tourJoueur.setText("Au tour de X");
+		
+        tourJoueur.setLayoutX(400);
+        tourJoueur.setLayoutY(30);
+    	
+        root.getChildren().add(tourJoueur); 
+        
+        manager.setHideWord(hideWord);
+        manager.setTourJoueurText(tourJoueur);
 
         return GameScene;
     }
@@ -444,8 +489,6 @@ public class SceneBuilder {
 	    joueurPresents.setLayoutY(height/4 + 50);
     	
         root.getChildren().add(joueurPresents); 
-        
-        System.out.println(joueurPresents);
         
         manager.setJoueursPresents(joueurPresents);
         
