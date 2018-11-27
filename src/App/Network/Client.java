@@ -22,6 +22,7 @@ import App.Network.Packet.In.StartSoloGameAccept;
 import App.Network.Packet.In.WaitTurn;
 import App.Network.Packet.Out.GameTurnCharSend;
 import App.Network.Packet.Out.SessionClosed;
+import App.Network.Packet.Out.StartDuelGame;
 import App.Network.Packet.Out.StartSoloGame;
 import App.Network.Packet.PacketHandler;
 import App.Network.Packet.PacketRegistryHandler;
@@ -180,6 +181,10 @@ public class Client implements Runnable{
     
     public void clientStartSoloGame(){
         this.write(new StartSoloGame(this));
+    }
+    
+    public void clientStartDuelGame(){
+        this.write(new StartDuelGame(this));
     }
     
     /**

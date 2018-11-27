@@ -6,12 +6,8 @@
 package App.View;
 
 import App.Core.ClientRoom;
-import App.Network.Client;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -201,15 +197,8 @@ public class SceneBuilder {
             Stage stage = primaryStage;
 
             public void handle(ActionEvent event) {
-                /*
-                try {
-                    manager.client.sendToServer("Duel");
-                    manager.setScene(stage, manager.RoomChooserScene);
-
-                } catch (IOException e) {
-                    //e.printStackTrace();
-                }
-                */
+                manager.clientStartDuelGame();
+                manager.setScene(stage, manager.RoomChooserScene);
                 stage.show();
             }
         });
@@ -367,14 +356,14 @@ public class SceneBuilder {
         Text hideWord = new Text();
 
         hideWord.setFont(new Font(35));
-        hideWord.setText("");
+        hideWord.setText("_____");
 
         hideWord.setLayoutX(50);
         hideWord.setLayoutY(80);
 
         root.getChildren().add(hideWord);
 
-        manager.setHideWord(hideWord);
+        manager.setHideWordS(hideWord);
 
         return GameScene;
     }
@@ -409,7 +398,7 @@ public class SceneBuilder {
 
         root.getChildren().add(tourJoueur);
 
-        manager.setHideWord(hideWord);
+        manager.setHideWordM(hideWord);
         manager.setTourJoueurText(tourJoueur);
 
         return GameScene;

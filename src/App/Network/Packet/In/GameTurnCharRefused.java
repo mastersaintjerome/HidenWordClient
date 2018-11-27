@@ -28,9 +28,6 @@ public class GameTurnCharRefused implements PacketHandler{
         String[] parts = packet.split(" ", 2);
         String charRefused = parts[1];
         logger.log(Level.INFO, "Char refused : {0}", charRefused);
-        /*
-        * ToDO char refused
-        */
     }
 
     @Override

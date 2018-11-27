@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 
 public class SceneManager {
     private ArrayList<KeyBoardButton> clavier = new ArrayList<KeyBoardButton>();
-    private Text hideWord, joueursPresents, tourJoueur;
+    private Text joueursPresents, tourJoueur;
     final private ExecutorService executor = Executors.newSingleThreadExecutor();
 
     Scene MenuScene, SingleGameScene, MultiGameScene, RoomChooserScene, GameChooseScene, WaitingScene, ErrorScene, VictoryScene, DefeatScene;
@@ -40,6 +40,8 @@ public class SceneManager {
 
     Scene currentScene;
     Stack<Scene> prevScenes = new Stack<Scene>();
+    private Text hideWordM;
+    private Text hideWordS;
         
     public SceneManager(Client client){
         this.client = client;
@@ -59,7 +61,11 @@ public class SceneManager {
     }
     
     public void clientStartSoloGame(){
-        client.clientStartSoloGame();
+        client.clientStartSoloGame(); 
+    }
+    
+    public void clientStartDuelGame(){
+        client.clientStartDuelGame(); 
     }
     
     public void victoryButton(Stage stage) {
@@ -210,7 +216,8 @@ public class SceneManager {
         setScene(primaryStage, MenuScene);
         primaryStage.show();
         
-        this.hideWord.setText("_ _ _");
+        this.hideWordS.setText("_ _ _");
+        this.hideWordM.setText("_ _ _");
         setTourJoueurText("Au tour du joueur " + (tourJoueurI+1));
         
     }
@@ -224,8 +231,8 @@ public class SceneManager {
     }
     
     public void setHidenWord() {
-    	if(this.client != null)
-            this.hideWord.setText(client.getSearchWord());
+    	if(client != null)
+            hideWordS.setText(client.getSearchWord());
     }
     
     public void setTourJoueurText(String text) {
@@ -233,18 +240,20 @@ public class SceneManager {
             getTourJoueur().setText(text);
     }
     
-    public String getHidenWord() {
-    	if(hideWord != null)
-            return this.hideWord.getText();
-    	return null;
+    public void setHideWordS(Text word) {
+        this.hideWordS = word;
     }
     
-    public void setHideWord(Text word) {
-        this.hideWord = word;
+    public Text getHideWordS() {
+        return this.hideWordS;
     }
     
-    public Text getHideWord() {
-        return this.hideWord;
+    public Text getHideWordM() {
+        return this.hideWordM;
+    }
+    
+    public void setHideWordM(Text hideWord) {
+         this.hideWordM = hideWord;
     }
     
     public Text getTourJoueur() {
