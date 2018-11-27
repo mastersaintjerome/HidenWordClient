@@ -7,7 +7,11 @@ package App.View;
 
 import App.Core.ClientRoom;
 import App.Network.Client;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -19,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javax.swing.Timer;
 
 /**
  * Permet de créer les scenes de la partie graphique du client.
@@ -27,10 +32,21 @@ import javafx.stage.Stage;
  */
 public class SceneBuilder {
 
-    SceneManager manager;
-
-    public SceneBuilder(SceneManager manager) {
+    private SceneManager manager;
+    private Timer timer;
+    
+    
+    public SceneBuilder(final SceneManager manager) {
         this.manager = manager;
+        timer = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                manager.setHidenWord();
+                manager.changeTour();
+            }
+        });
+        timer.setRepeats(true);
+        timer.start(); // Go go go!
     }
 
     public void createClavier(Group root, int initPosX, int initPosY) /*
@@ -39,7 +55,7 @@ public class SceneBuilder {
         int ecartX = 0, ecartY = 0;
         int i;
         for (i = 0; i < 26; i++) {
-            char c = (char) ((char) i + 65);
+            char c = (char) ((char) i + 97);
             String s = "";
             s += c + " ";
 
@@ -173,36 +189,12 @@ public class SceneBuilder {
         });
         root.getChildren().add(btnSolo);
 
-        Button btnMulti = new Button();
-        btnMulti.setText("Partie Multi-Joueur");
-        btnMulti.setFont(new Font(18));
-
-        btnMulti.setLayoutX(decX);
-        btnMulti.setLayoutY(150);
-        btnMulti.setPrefSize(preferedW, preferedH);
-
-        btnMulti.setOnAction(new EventHandler<ActionEvent>() {
-            Stage stage = primaryStage;
-
-            public void handle(ActionEvent event) {
-               /* try {
-                    manager.client.sendToServer("Multi");
-                    manager.setScene(stage, manager.RoomChooserScene);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                */
-                stage.show();
-            }
-        });
-        root.getChildren().add(btnMulti);
-
         Button btnDuel = new Button();
         btnDuel.setText("Partie Duel");
         btnDuel.setFont(new Font(18));
 
         btnDuel.setLayoutX(decX);
-        btnDuel.setLayoutY(200);
+        btnDuel.setLayoutY(150);
         btnDuel.setPrefSize(preferedW, preferedH);
 
         btnDuel.setOnAction(new EventHandler<ActionEvent>() {

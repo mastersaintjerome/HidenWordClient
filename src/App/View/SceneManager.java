@@ -132,14 +132,14 @@ public class SceneManager {
     }
     
     public void changeTour() {
-    	String text = "Au tour du joueur " + (tourJoueurI+1);
-    	setTourJoueurText(text);
-    	if(tourJoueurI == 0) {
-    		griseClavier();
-    	} else {
-    		restaureClavier();
-    	}
-    	tourJoueurI = (tourJoueurI + 1) % 2; 	
+        String text;
+        if(client.isIsTurn()){
+            text = "A votre tour !";
+            restaureClavier();
+        }else{
+            text = "Au tour du joueur adverse !";
+            griseClavier();
+        }
     }
   
     public void enterScene() 
@@ -210,7 +210,7 @@ public class SceneManager {
         setScene(primaryStage, MenuScene);
         primaryStage.show();
         
-        setHidenWord("_ _ _");
+        this.hideWord.setText("_ _ _");
         setTourJoueurText("Au tour du joueur " + (tourJoueurI+1));
         
     }
@@ -223,9 +223,9 @@ public class SceneManager {
     	return this.stage;
     }
     
-    public void setHidenWord(String word) {
-    	if(this.hideWord != null)
-            this.hideWord.setText(word);
+    public void setHidenWord() {
+    	if(this.client != null)
+            this.hideWord.setText(client.getSearchWord());
     }
     
     public void setTourJoueurText(String text) {

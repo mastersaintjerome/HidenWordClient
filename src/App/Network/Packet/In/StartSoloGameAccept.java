@@ -30,6 +30,7 @@ public class StartSoloGameAccept implements PacketHandler{
         client.setSearchWord(searchWord);
         client.setPseudo("Player");
         client.setGameRun(true);
+        client.setIsTurn(true);
         client.setPlayerGameState(Client.PlayerGameState.RUN);
     }
 
