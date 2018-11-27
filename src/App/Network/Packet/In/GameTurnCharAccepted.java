@@ -25,9 +25,9 @@ public class GameTurnCharAccepted implements PacketHandler{
     @Override
     public void handle(Client client, String packet) {
         String[] parts = packet.split(" ", 2);
-        String serchedWord = parts[1];
-        logger.log(Level.INFO, "New serchedWord : {0}", serchedWord);
-        client.setSearchWord(serchedWord);
+        String searchedWord = parts[1];
+        logger.log(Level.INFO, "New searchedWord : {0}", searchedWord);
+        client.setSearchWord(searchedWord);
     }
 
     @Override

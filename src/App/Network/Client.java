@@ -7,7 +7,19 @@
 package App.Network;
 
 import App.Core.ClientConfig;
+import App.Network.Packet.In.AskGamesRoomAnswer;
+import App.Network.Packet.In.CreateDuelGameAccept;
+import App.Network.Packet.In.Disconnected;
+import App.Network.Packet.In.GameLost;
+import App.Network.Packet.In.GameTurnCharAccepted;
+import App.Network.Packet.In.GameTurnCharRefused;
+import App.Network.Packet.In.GameWin;
+import App.Network.Packet.In.JoinDuelGameAccept;
+import App.Network.Packet.In.JoinDuelGameRefuse;
+import App.Network.Packet.In.NextTurn;
 import App.Network.Packet.In.SessionStarted;
+import App.Network.Packet.In.StartSoloGameAccept;
+import App.Network.Packet.In.WaitTurn;
 import App.Network.Packet.Out.GameTurnCharSend;
 import App.Network.Packet.Out.SessionClosed;
 import App.Network.Packet.Out.StartSoloGame;
@@ -30,12 +42,12 @@ public class Client implements Runnable{
     volatile private boolean running  = false;
     private PacketRegistryHandler handler;
     
-    private String searchWord;
-    private String pseudo;
-    private Socket socket;
-    private boolean isTurn;
-    private boolean gameRun;
-    private PlayerGameState playerGameState;
+    volatile private String searchWord;
+    volatile private String pseudo;
+    volatile private Socket socket;
+    volatile private boolean isTurn;
+    volatile private boolean gameRun;
+    volatile private PlayerGameState playerGameState;
 
     public Client(ClientConfig config){
         logger = Logger.getLogger(Client.class.getName());
@@ -60,7 +72,19 @@ public class Client implements Runnable{
     public PacketRegistryHandler handler(){
         PacketRegistryHandler packetRegistryHandler = new PacketRegistryHandler(new PacketHandler[]{
             // @todo Set the input packets here
-            new SessionStarted()
+            new SessionStarted(),
+            new StartSoloGameAccept(),
+            new AskGamesRoomAnswer(),
+            new CreateDuelGameAccept(),
+            new Disconnected(),
+            new GameLost(),
+            new GameWin(),
+            new GameTurnCharAccepted(),
+            new GameTurnCharRefused(),
+            new JoinDuelGameAccept(),
+            new JoinDuelGameRefuse(),
+            new NextTurn(),
+            new WaitTurn()  
         });
         return packetRegistryHandler;
     }
@@ -91,7 +115,6 @@ public class Client implements Runnable{
         try {
             while ((c = (char) socket.getInputStream().read()) > 0 && (c != END_OF_PACKET)) {
                 builder.append(c);
-                logger.log(Level.INFO, "char : {0}", c);
             }
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Cannot read from server", e);
