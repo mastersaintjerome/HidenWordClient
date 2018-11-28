@@ -147,20 +147,34 @@ public class SceneBuilder {
      * Création des boutons permettant de choisir la Room a acceder.
      */ {
         if (crc != null) {
+       
+            Button btnCreer = new Button();
+            btnCreer.setPrefSize(327, 40);
+            btnCreer.setText("Créer une room.");
+            btnCreer.setFont(new Font(23));
 
+            btnCreer.setOnAction(new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent event) {
+                    manager.clientCreateDuelGame();
+                    manager.setScene(primaryStage, manager.WaitingScene);
+                }
+            });
+            //root.getChildren().add(btnCreer);
+            
             ScrollPane s1 = new ScrollPane();
             s1.setLayoutX(148);
             s1.setLayoutY(60);
             s1.setPrefSize(327, 240);
 
             VBox vBox = new VBox();
-
+            vBox.getChildren().add(btnCreer);
+            manager.clientgetRoomsForClientRoomController(crc);
             for (final ClientRoom room : crc.getClientRooms()) {
                 Button btn = new Button();
 
                 String roomLabel = "Room " + room.getId() + "    Joueur(s) : " + room.getMembers() + "/" + room.getMembersMax();
 
-                btn.setPrefSize(305, 40);
+                btn.setPrefSize(327, 40);
                 btn.setText(roomLabel);
                 btn.setFont(new Font(23));
 
@@ -219,7 +233,6 @@ public class SceneBuilder {
             Stage stage = primaryStage;
 
             public void handle(ActionEvent event) {
-                manager.clientCreateDuelGame();
                 manager.setScene(stage, manager.RoomChooserScene);
                 stage.show();
             }
@@ -307,7 +320,7 @@ public class SceneBuilder {
         btnRet.setText("<");
         btnRet.setFont(new Font(15));
 
-        btnRet.setPrefSize(5, 10);
+        btnRet.setPrefSize(40, 40);
 
         btnRet.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -440,7 +453,7 @@ public class SceneBuilder {
         joueurPresents = new Text();
 
         joueurPresents.setFont(new Font(30));
-        joueurPresents.setText("x/2");
+        joueurPresents.setText("1/2");
 
         joueurPresents.setLayoutX(width / 2);
         joueurPresents.setLayoutY(height / 4 + 50);

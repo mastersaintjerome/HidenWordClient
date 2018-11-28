@@ -97,6 +97,10 @@ public class SceneManager {
         return client.getRooms();
     }
     
+    public void clientgetRoomsForClientRoomController(ClientRoomController crc){
+        crc.getAllRoomsFromServers(clientgetRooms());
+    }
+    
     public void victoryButton(Stage stage) {
     	Scene scene = VictoryScene;
     	stage.setScene(scene);
