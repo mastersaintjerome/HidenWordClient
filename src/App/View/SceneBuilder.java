@@ -31,7 +31,6 @@ public class SceneBuilder {
     private SceneManager manager;
     private Timer updateHidenWord;
     private Timer updateTour;
-    private Timer updateRooms;
     
     
     public SceneBuilder(final SceneManager manager) {
@@ -62,23 +61,22 @@ public class SceneBuilder {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 if(manager.clientIsGameRun()){
+                    if(manager.currentScene == manager.WaitingScene){
+                        Platform.runLater(new Runnable() {
+                            @Override public void run() {
+                                manager.setScene(manager.getStage(), manager.MultiGameScene);
+                            }
+                        });
+                    }
                     manager.changeTour();
+                }
+                if(manager.clientIsRunning()){
+                    manager.clientAskGamesRoom(); 
                 }
             }
         });
         updateTour.setRepeats(true);
         updateTour.start(); // Go go go!
-                
-        updateRooms = new Timer(3000, new ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                if(manager.clientIsGameRun()){
-                     manager.clientAskGamesRoom(); 
-                }
-            }
-        });
-        updateRooms.setRepeats(true);
-        updateRooms.start(); // Go go go!
     }
 
     public void createClavier(Group root, int initPosX, int initPosY) /*
@@ -179,6 +177,7 @@ public class SceneBuilder {
             s1.setPrefSize(327, 240);
 
             VBox vBox = new VBox();
+            manager.setRoomContainer(vBox);
             vBox.getChildren().add(btnCreer);
             manager.clientgetRoomsForClientRoomController(crc);
             for (final ClientRoom room : crc.getClientRooms()) {
@@ -496,7 +495,6 @@ public class SceneBuilder {
      * Création du menu permettant de choisir la room a acceder.
      */
     {
-        crc = new ClientRoomController();
         crc.getAllRoomsFromServers(manager.clientgetRooms());
         Group root = new Group();
 

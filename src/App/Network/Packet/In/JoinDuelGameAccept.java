@@ -29,6 +29,8 @@ public class JoinDuelGameAccept implements PacketHandler{
         String pseudo = parts[1];
         logger.log(Level.INFO, "Pseudo : {0}", pseudo);
         client.setPseudo(pseudo);
+        client.setGameRun(true);
+        client.setPlayerGameState(Client.PlayerGameState.RUN);
         StartDuelGame  StartDuelGame = new StartDuelGame(client);
         client.write(StartDuelGame);
     }

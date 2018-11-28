@@ -165,6 +165,14 @@ public class Client implements Runnable{
     public void setIsTurn(boolean isTurn) {
         this.isTurn = isTurn;
     }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
     
     public PacketRegistryHandler getHandler() {
         return handler;

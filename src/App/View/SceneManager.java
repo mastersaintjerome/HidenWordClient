@@ -13,8 +13,13 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -27,12 +32,13 @@ public class SceneManager {
     private ArrayList<KeyBoardButton> clavier = new ArrayList<KeyBoardButton>();
     private Text joueursPresents, tourJoueur;
     final private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private VBox roomContainer;
     private Stage stage;
     
     Scene MenuScene, SingleGameScene, MultiGameScene, RoomChooserScene, GameChooseScene, WaitingScene, ErrorScene, VictoryScene, DefeatScene;
 
     private final Client client;
-    ClientRoomController crc; 
+    private ClientRoomController crc  = new ClientRoomController(); 
     SceneBuilder builder;
 
     int tourJoueurI = 0;
@@ -208,7 +214,11 @@ public class SceneManager {
     	else if(currentScene == SingleGameScene) {
     		resetKeyBoard();
     		leaveRoom();
-    	}else if(currentScene == WaitingScene) {
+    	}else if(currentScene == RoomChooserScene) {
+            crc.getAllRoomsFromServers(clientgetRooms());
+            refreshRoomContainer();
+        }
+        else if(currentScene == WaitingScene) {
     	
     		if(getCurrentRoom() != null)  {
 		    	getCurrentRoom().addMember();
@@ -230,6 +240,53 @@ public class SceneManager {
         		prevScenes.push(prev);
         	}
     	}
+    }
+    
+    public void refreshRoomContainer(){ 
+        VBox container = getRoomContainer();
+        container.getChildren().clear();
+
+        Button btnCreer = new Button();
+        btnCreer.setPrefSize(327, 40);
+        btnCreer.setText("Créer une room.");
+        btnCreer.setFont(new Font(23));
+
+        btnCreer.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                clientCreateDuelGame();
+                setScene(stage, WaitingScene);
+            }
+        });
+        
+        container.getChildren().add(btnCreer);
+        for (final ClientRoom room : crc.getClientRooms()) {
+            Button btn = new Button();
+
+            String roomLabel = "Room " + room.getId() + "    Joueur(s) : " + room.getMembers() + "/" + room.getMembersMax();
+
+            btn.setPrefSize(305, 40);
+            btn.setText(roomLabel);
+            btn.setFont(new Font(23));
+
+            btn.setOnAction(new EventHandler<ActionEvent>() {
+                ClientRoom cRoom = room;
+
+                public void handle(ActionEvent event) {
+                    clientJoinDuelGame(cRoom.getId());
+                    setCurrentRoom(cRoom);
+                    setScene(stage, WaitingScene);
+                }
+            });
+            container.getChildren().add(btn);
+        }
+    }
+    
+    public void setRoomContainer(VBox container){
+        this.roomContainer = container;
+    }
+
+    public VBox getRoomContainer(){
+        return this.roomContainer;
     }
     
     public void refreshWaitingText() {
