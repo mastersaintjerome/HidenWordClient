@@ -101,6 +101,10 @@ public class SceneManager {
         crc.getAllRoomsFromServers(clientgetRooms());
     }
     
+    public void clientAskGamesRoom(){
+        client.clientAskGamesRoom();
+    }
+    
     public void victoryButton(Stage stage) {
     	Scene scene = VictoryScene;
     	stage.setScene(scene);

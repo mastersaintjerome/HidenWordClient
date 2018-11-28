@@ -31,6 +31,7 @@ public class SceneBuilder {
     private SceneManager manager;
     private Timer updateHidenWord;
     private Timer updateTour;
+    private Timer updateRooms;
     
     
     public SceneBuilder(final SceneManager manager) {
@@ -67,6 +68,17 @@ public class SceneBuilder {
         });
         updateTour.setRepeats(true);
         updateTour.start(); // Go go go!
+                
+        updateRooms = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if(manager.clientIsGameRun()){
+                     manager.clientAskGamesRoom(); 
+                }
+            }
+        });
+        updateRooms.setRepeats(true);
+        updateRooms.start(); // Go go go!
     }
 
     public void createClavier(Group root, int initPosX, int initPosY) /*

@@ -20,6 +20,7 @@ import App.Network.Packet.In.NextTurn;
 import App.Network.Packet.In.SessionStarted;
 import App.Network.Packet.In.StartSoloGameAccept;
 import App.Network.Packet.In.WaitTurn;
+import App.Network.Packet.Out.AskGamesRoom;
 import App.Network.Packet.Out.CreateDuelGame;
 import App.Network.Packet.Out.GameTurnCharSend;
 import App.Network.Packet.Out.JoinDuelGame;
@@ -198,20 +199,24 @@ public class Client implements Runnable{
     }
     
     public void clientSendChar(char c){
-        this.write(new GameTurnCharSend(this,c));
+        write(new GameTurnCharSend(this,c));
     }
     
     public void clientStartSoloGame(){
-        this.write(new StartSoloGame(this));
+        write(new StartSoloGame(this));
     }
     
     public void clientCreateDuelGame(){
-        this.write(new CreateDuelGame(this));
+        write(new CreateDuelGame(this));
     }
     
     public void clientJoinDuelGame(int id){
-        this.write(new JoinDuelGame(this,id));
-        this.write(new StartDuelGame(this));
+        write(new JoinDuelGame(this,id));
+        write(new StartDuelGame(this));
+    }
+    
+    public void clientAskGamesRoom(){
+        write(new AskGamesRoom(this));
     }
     
     public void addRooms(int id, int player){
