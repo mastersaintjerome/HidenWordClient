@@ -211,6 +211,7 @@ public class Client implements Runnable{
     
     public void clientJoinDuelGame(int id){
         this.write(new JoinDuelGame(this,id));
+        this.write(new StartDuelGame(this));
     }
     
     public void addRooms(int id, int player){
