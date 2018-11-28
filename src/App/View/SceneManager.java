@@ -27,13 +27,13 @@ public class SceneManager {
     private ArrayList<KeyBoardButton> clavier = new ArrayList<KeyBoardButton>();
     private Text joueursPresents, tourJoueur;
     final private ExecutorService executor = Executors.newSingleThreadExecutor();
-
+    private Stage stage;
+    
     Scene MenuScene, SingleGameScene, MultiGameScene, RoomChooserScene, GameChooseScene, WaitingScene, ErrorScene, VictoryScene, DefeatScene;
 
     private final Client client;
     ClientRoomController crc; 
     SceneBuilder builder;
-    Stage stage;
 
     int tourJoueurI = 0;
 
@@ -55,6 +55,14 @@ public class SceneManager {
     
     public boolean clientIsRunning(){
         return client.isRunning();
+    }
+    
+    public boolean clientIsWinning(){
+        return client.isWinning();
+    }
+    
+    public boolean clientIsLost(){
+        return client.isLost();
     }
     
     public void clientSendChar(char c){
@@ -80,13 +88,25 @@ public class SceneManager {
     public void victoryButton(Stage stage) {
     	Scene scene = VictoryScene;
     	stage.setScene(scene);
-		currentScene = scene;
+        currentScene = scene;
+    }
+    
+    public void victoryScene(Stage stage){
+        Scene scene = VictoryScene;
+    	stage.setScene(scene);
+        currentScene = scene;
+    }
+    
+    public void defeatScene(Stage stage){
+        Scene scene = DefeatScene;
+    	stage.setScene(scene);
+        currentScene = scene;
     }
     
     public void defeatButton(Stage stage) {
     	Scene scene = DefeatScene;
     	stage.setScene(scene);
-		currentScene = scene;
+        currentScene = scene;
     }
     
     public void griseClavier() {

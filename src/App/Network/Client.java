@@ -176,6 +176,14 @@ public class Client implements Runnable{
     public PlayerGameState getPlayerGameState() {
         return playerGameState;
     }
+    
+    public boolean isWinning(){
+        return playerGameState == PlayerGameState.WIN;
+    }
+    
+    public boolean isLost(){
+        return playerGameState == PlayerGameState.LOST;
+    }
 
     public void setPlayerGameState(PlayerGameState playerGameState) {
         this.playerGameState = playerGameState;

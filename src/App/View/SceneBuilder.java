@@ -38,6 +38,11 @@ public class SceneBuilder {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 manager.setHidenWord();
+                if(manager.clientIsWinning()){
+                    manager.victoryScene(manager.getStage());
+                }else if(manager.clientIsLost()){
+                    manager.defeatScene(manager.getStage());
+                }
             }
         });
         updateHidenWord.setRepeats(true);
