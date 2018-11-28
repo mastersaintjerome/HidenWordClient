@@ -202,7 +202,7 @@ public class SceneBuilder {
             Stage stage = primaryStage;
 
             public void handle(ActionEvent event) {
-                manager.clientStartDuelGame();
+                manager.clientCreateDuelGame();
                 manager.setScene(stage, manager.RoomChooserScene);
                 stage.show();
             }

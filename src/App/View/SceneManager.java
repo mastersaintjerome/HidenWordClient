@@ -65,8 +65,8 @@ public class SceneManager {
         client.clientStartSoloGame(); 
     }
     
-    public void clientStartDuelGame(){
-        client.clientStartDuelGame(); 
+    public void clientCreateDuelGame(){
+        client.clientCreateDuelGame(); 
     }
     
     public void clientJoinDuelGame(int id){
