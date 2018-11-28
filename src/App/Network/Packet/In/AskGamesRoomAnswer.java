@@ -27,10 +27,13 @@ public class AskGamesRoomAnswer implements PacketHandler{
         String[] parts = packet.split(" ", 2);
         String message = parts[1];
         logger.log(Level.INFO, "Games Rooom : {0}", message);
-        /*
-        * TODo 
-        * Client Room
-        */
+        String[] rooms_parts = message.split(",");
+        for(int i = 0; i < rooms_parts.length;i++){
+            int id = (int)rooms_parts[i].charAt(1);
+            String[] rooms_players_parts = rooms_parts[i].split(" ");
+            int playerNb = (int)rooms_players_parts[1].charAt(0);
+            client.addRooms(id, playerNb);
+        }
     }
 
     @Override

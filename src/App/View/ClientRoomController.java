@@ -7,6 +7,7 @@ package App.View;
 
 import App.Core.ClientRoom;
 import java.util.ArrayList;
+import java.util.Map;
 
 /*
  * Permet de sauvegarder les Rooms au niveau de client. 
@@ -18,19 +19,14 @@ public final class ClientRoomController {
 
     public ClientRoomController() {
 
-        addRoom(1, 1);
-        addRoom(2, 1);
-        addRoom(3, 0);
-        addRoom(4, 2);
-        addRoom(5, 0);
-        addRoom(6, 1);
-        getAllRoomsFromServers();
     }
 
-    public void getAllRoomsFromServers() {
-        /**
-         * Ajouter la récupérations de rooms
-         */
+    public void getAllRoomsFromServers(Map<Integer,Integer> rooms) {
+        for(Map.Entry<Integer, Integer> entry : rooms.entrySet()) {
+            Integer id = entry.getKey();
+            Integer nbPlayer = entry.getValue();
+            addRoom(id,nbPlayer);
+        }   
     }
 
     public ArrayList<ClientRoom> getClientRooms() {

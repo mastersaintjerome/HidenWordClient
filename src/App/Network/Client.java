@@ -21,6 +21,7 @@ import App.Network.Packet.In.SessionStarted;
 import App.Network.Packet.In.StartSoloGameAccept;
 import App.Network.Packet.In.WaitTurn;
 import App.Network.Packet.Out.GameTurnCharSend;
+import App.Network.Packet.Out.JoinDuelGame;
 import App.Network.Packet.Out.SessionClosed;
 import App.Network.Packet.Out.StartDuelGame;
 import App.Network.Packet.Out.StartSoloGame;
@@ -29,6 +30,8 @@ import App.Network.Packet.PacketRegistryHandler;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,12 +52,14 @@ public class Client implements Runnable{
     volatile private boolean isTurn;
     volatile private boolean gameRun;
     volatile private PlayerGameState playerGameState;
+    volatile private Map<Integer,Integer> rooms;
 
     public Client(ClientConfig config){
         logger = Logger.getLogger(Client.class.getName());
         this.config = config;
         isTurn = false;
         gameRun = false;
+        rooms = new HashMap<>();
     }
     
     public void connect() {
@@ -185,6 +190,18 @@ public class Client implements Runnable{
     
     public void clientStartDuelGame(){
         this.write(new StartDuelGame(this));
+    }
+    
+    public void clientJoinDuelGame(int id){
+        this.write(new JoinDuelGame(this,id));
+    }
+    
+    public void addRooms(int id, int player){
+        rooms.put(id, player);
+    }
+    
+    public Map<Integer,Integer> getRooms(){
+        return rooms;
     }
     
     /**

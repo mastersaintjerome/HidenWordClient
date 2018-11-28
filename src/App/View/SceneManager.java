@@ -9,6 +9,7 @@ package App.View;
 import App.Core.ClientRoom;
 import App.Network.Client;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -66,6 +67,14 @@ public class SceneManager {
     
     public void clientStartDuelGame(){
         client.clientStartDuelGame(); 
+    }
+    
+    public void clientJoinDuelGame(int id){
+        client.clientJoinDuelGame(id);
+    }
+    
+    public Map<Integer,Integer> clientgetRooms(){
+        return client.getRooms();
     }
     
     public void victoryButton(Stage stage) {
@@ -231,8 +240,10 @@ public class SceneManager {
     }
     
     public void setHidenWord() {
-    	if(client != null)
+    	if(client != null){
             hideWordS.setText(client.getSearchWord());
+            hideWordM.setText(client.getSearchWord());
+        }
     }
     
     public void setTourJoueurText(String text) {

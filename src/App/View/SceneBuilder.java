@@ -7,7 +7,6 @@ package App.View;
 
 import App.Core.ClientRoom;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -143,12 +142,9 @@ public class SceneBuilder {
                     ClientRoom cRoom = room;
 
                     public void handle(ActionEvent event) {
-                        /**
-                         * Ajouter le code pour acceder a la room i
-                         */
+                        manager.clientJoinDuelGame(cRoom.getId());
                         manager.setCurrentRoom(cRoom);
                         manager.setScene(primaryStage, manager.WaitingScene);
-
                     }
                 });
                 vBox.getChildren().add(btn);
@@ -451,6 +447,7 @@ public class SceneBuilder {
      */
     {
         crc = new ClientRoomController();
+        crc.getAllRoomsFromServers(manager.clientgetRooms());
         Group root = new Group();
 
         Scene RoomChooserScene = new Scene(root, width, height, color);
