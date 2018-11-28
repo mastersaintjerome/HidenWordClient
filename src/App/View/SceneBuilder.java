@@ -562,7 +562,7 @@ public class SceneBuilder {
 
         createTextInArea(root, "Perdu", 200, 80, 60);
 
-        createTextInArea(root, "Vous ferrez mieux la prochaine fois !", 125, 150, 20);
+        createTextInArea(root, "Vous ferez mieux la prochaine fois !", 125, 150, 20);
 
         createEndGameButtons(primaryStage, root);
 
