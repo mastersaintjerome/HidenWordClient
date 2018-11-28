@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * Packet receive after char accepted
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class GameTurnCharAccepted implements PacketHandler{
     final private Logger logger;

@@ -39,7 +39,7 @@ import java.util.logging.Logger;
 
 /**
  * Class client, connect to the server
- * @author Gaëtan Perrot, Barbarian
+ * @author Gaëtan Perrot, Barbaria
  */
 public class Client implements Runnable{
     public final static char END_OF_PACKET = '\n';

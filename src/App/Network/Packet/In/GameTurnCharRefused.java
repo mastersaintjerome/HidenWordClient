@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  * Packet receive after char refused
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class GameTurnCharRefused implements PacketHandler{
     final private Logger logger;

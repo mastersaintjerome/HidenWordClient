@@ -10,7 +10,7 @@ import App.Network.Client;
 
 /**
  * Packet send when a client send a char
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class GameTurnCharSend {
     private final Client client;

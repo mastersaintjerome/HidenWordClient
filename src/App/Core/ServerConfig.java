@@ -8,7 +8,7 @@ package App.Core;
 
 /**
  * Server Configuration
- * @author Gaëtan Perrot, Barbarian
+ * @author Gaëtan Perrot, Barbaria
  */
 public class ServerConfig {
     final private String host;

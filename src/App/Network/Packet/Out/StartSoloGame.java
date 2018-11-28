@@ -10,7 +10,7 @@ import App.Network.Client;
 
 /**
  * Packet send when a client want to start a solo game
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class StartSoloGame {
     private final Client client;

@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * Packet receive when player turn
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class NextTurn implements PacketHandler{
     final private Logger logger;

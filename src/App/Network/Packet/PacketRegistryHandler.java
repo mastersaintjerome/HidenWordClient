@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 /**
  *
  * All received packets and events will be mapped to a packet handler
- * @author Gaëtan Perrot, Barbarian
+ * @author Gaëtan Perrot, Barbaria
  */
 public final class PacketRegistryHandler{
 

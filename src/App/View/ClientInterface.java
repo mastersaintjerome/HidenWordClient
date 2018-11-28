@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 /*
  * Interface du client.
- * @author Gaëtan Perrot, Barbarian
+ * @author Gaëtan Perrot, Barbaria
  */
 public class ClientInterface extends Application {
 

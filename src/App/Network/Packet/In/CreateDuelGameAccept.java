@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * Packet receive after create a duel game
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class CreateDuelGameAccept implements PacketHandler{
     final private Logger logger;

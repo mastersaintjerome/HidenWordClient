@@ -10,7 +10,7 @@ import App.Network.Client;
 
 /**
  * Packet send when a client want to know the games rooms available
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class AskGamesRoom {
     private final Client client;

@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * SessionStarted Packet
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class SessionStarted implements PacketHandler{
     final private Logger logger;

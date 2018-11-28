@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * Packet receive after games win
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class GameWin implements PacketHandler{
     final private Logger logger;

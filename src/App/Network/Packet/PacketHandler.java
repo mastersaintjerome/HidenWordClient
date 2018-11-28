@@ -10,7 +10,7 @@ import App.Network.Client;
 
 /**
  * Handle incoming packets
- * @author Gaëtan Perrot, Barbarian
+ * @author Gaëtan Perrot, Barbaria
  */
 public interface PacketHandler {
     /**

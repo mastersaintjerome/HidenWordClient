@@ -10,7 +10,7 @@ import App.Network.Client;
 
 /**
  * Packet send when a client want to create a duel game room
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class CreateDuelGame {
     private final Client client;

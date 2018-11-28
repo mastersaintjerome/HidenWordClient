@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * Packet receive when player have to wait for his turn (once)
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class WaitTurn implements PacketHandler{
     final private Logger logger;

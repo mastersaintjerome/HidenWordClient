@@ -8,7 +8,7 @@ package App.Core;
 
 /**
  * Client Room definition
- * @author Gaëtan Perrot, Barbarian
+ * @author Gaëtan Perrot, Barbaria
  */
 
 final public class ClientRoom {

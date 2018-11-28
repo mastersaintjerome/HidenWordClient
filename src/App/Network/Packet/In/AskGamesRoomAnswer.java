@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * Packet receive after ask games room
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class AskGamesRoomAnswer implements PacketHandler{
     final private Logger logger;

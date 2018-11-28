@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  * Packet receive after create a solo game
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class StartSoloGameAccept implements PacketHandler{
     final private Logger logger;

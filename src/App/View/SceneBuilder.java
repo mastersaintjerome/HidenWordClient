@@ -24,7 +24,7 @@ import javax.swing.Timer;
 /**
  * Permet de créer les scenes de la partie graphique du client.
  *
- * @author Gaëtan Perrot, Barbarian
+ * @author Gaëtan Perrot, Barbaria
  */
 public class SceneBuilder {
 

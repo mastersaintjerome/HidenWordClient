@@ -11,7 +11,7 @@ import App.Network.Packet.PacketRegistryHandler;
 
 /**
  * Packet send when a client closed a session
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class SessionClosed {
     private final Client client;

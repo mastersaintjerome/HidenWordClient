@@ -10,7 +10,7 @@ import App.Network.Client;
 
 /**
  * Packet send when client start duel game
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class StartDuelGame {
     private final Client client;

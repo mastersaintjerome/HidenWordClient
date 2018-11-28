@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  * Packet receive after join duel game
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class JoinDuelGameAccept implements PacketHandler{
     final private Logger logger;

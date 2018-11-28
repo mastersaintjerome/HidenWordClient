@@ -11,7 +11,7 @@ import java.util.Map;
 
 /*
  * Permet de sauvegarder les Rooms au niveau de client. 
- * @author Gaëtan Perrot, Barbarian
+ * @author Gaëtan Perrot, Barbaria
  */
 public final class ClientRoomController {
 

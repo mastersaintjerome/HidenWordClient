@@ -8,7 +8,7 @@ package App.View;
 import javafx.scene.control.Button;
 /*
  * KeyBoard Button extends Button, class to get char from a button
- * @author Gaëtan Perrot, Barbarian
+ * @author Gaëtan Perrot, Barbaria
  */
 
 public class KeyBoardButton extends Button {

@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 
 /*
  * Systeme permettant de gérer la partie graphique du jeu.
- * @author Gaëtan Perrot, Barbarian
+ * @author Gaëtan Perrot, Barbaria
  */
 
 public class SceneManager {

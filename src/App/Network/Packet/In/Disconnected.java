@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  * Packet receive after A session is stopped
- * @author Gaëtan
+ * @author Gaëtan Perrot, Barbaria
  */
 public class Disconnected implements PacketHandler{
     final private Logger logger;
