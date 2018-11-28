@@ -28,20 +28,29 @@ import javax.swing.Timer;
 public class SceneBuilder {
 
     private SceneManager manager;
-    private Timer timer;
+    private Timer updateHidenWord;
+    private Timer updateTour;
     
     
     public SceneBuilder(final SceneManager manager) {
         this.manager = manager;
-        timer = new Timer(3000, new ActionListener() {
+        updateHidenWord = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 manager.setHidenWord();
+            }
+        });
+        updateHidenWord.setRepeats(true);
+        updateHidenWord.start(); // Go go go!
+        
+        updateTour = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
                 manager.changeTour();
             }
         });
-        timer.setRepeats(true);
-        timer.start(); // Go go go!
+        updateTour.setRepeats(true);
+        updateTour.start(); // Go go go!
     }
 
     public void createClavier(Group root, int initPosX, int initPosY) /*
