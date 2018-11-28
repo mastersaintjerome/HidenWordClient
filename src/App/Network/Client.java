@@ -133,6 +133,14 @@ public class Client implements Runnable{
         return packet;
     }
 
+   public void resetGame(){
+        searchWord = "";
+        isTurn = false;
+        gameRun = false;
+        playerGameState = PlayerGameState.RUN;
+        rooms.clear();
+   }
+    
     public String getSearchWord() {
         return searchWord;
     }
@@ -239,11 +247,15 @@ public class Client implements Runnable{
      */
     public void stop() {
         logger.info("Stopping...");
-        this.write(new SessionClosed(this));
-        running = false;
-        try {
-            socket.close();
-        } catch (IOException e) {}
+        resetGame();  
+        if(socket != null){
+            this.write(new SessionClosed(this));
+            try {
+                socket.close();
+            } catch (IOException e) {
+                
+            }
+        }
     }
     
     @Override

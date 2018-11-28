@@ -7,6 +7,7 @@ package App.View;
 
 import App.Core.ClientRoom;
 import java.awt.event.ActionListener;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -37,11 +38,21 @@ public class SceneBuilder {
         updateHidenWord = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                manager.setHidenWord();
-                if(manager.clientIsWinning()){
-                    manager.victoryScene(manager.getStage());
-                }else if(manager.clientIsLost()){
-                    manager.defeatScene(manager.getStage());
+                if(manager.clientIsGameRun()){
+                    manager.setHidenWord();
+                    if(manager.clientIsWinning()){
+                        Platform.runLater(new Runnable() {
+                            @Override public void run() {
+                                manager.victoryScene(manager.getStage());
+                            }
+                        });
+                    }else if(manager.clientIsLost()){
+                        Platform.runLater(new Runnable() {
+                            @Override public void run() {
+                                manager.defeatScene(manager.getStage());
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -51,7 +62,9 @@ public class SceneBuilder {
         updateTour = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                manager.changeTour();
+                if(manager.clientIsGameRun()){
+                    manager.changeTour();
+                }
             }
         });
         updateTour.setRepeats(true);
@@ -125,6 +138,7 @@ public class SceneBuilder {
         btnQuit.setOnAction(new EventHandler<ActionEvent>() {
 
             public void handle(ActionEvent event) {
+                manager.clientStop();
                 System.exit(0);
             }
         });
@@ -185,7 +199,7 @@ public class SceneBuilder {
 
         btnSolo.setOnAction(new EventHandler<ActionEvent>() {
             Stage stage = primaryStage;
-
+            
             @Override
             public void handle(ActionEvent event) {
                 manager.clientStartSoloGame();
@@ -267,6 +281,7 @@ public class SceneBuilder {
 
         btnMenuG.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                manager.clientResetGame();
                 manager.setScene(primaryStage, manager.GameChooseScene);
             }
         });
@@ -282,6 +297,7 @@ public class SceneBuilder {
         btnMenu.setOnAction(new EventHandler<ActionEvent>() {
 
             public void handle(ActionEvent event) {
+                manager.clientResetGame();
                 manager.setScene(primaryStage, manager.MenuScene);
             }
         });
@@ -372,7 +388,7 @@ public class SceneBuilder {
         hideWord.setLayoutY(80);
 
         root.getChildren().add(hideWord);
-
+        manager.setStage (stage);
         manager.setHideWordS(hideWord);
 
         return GameScene;
@@ -407,7 +423,7 @@ public class SceneBuilder {
         tourJoueur.setLayoutY(30);
 
         root.getChildren().add(tourJoueur);
-
+        manager.setStage (stage);
         manager.setHideWordM(hideWord);
         manager.setTourJoueurText(tourJoueur);
 

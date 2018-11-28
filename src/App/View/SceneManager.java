@@ -57,6 +57,10 @@ public class SceneManager {
         return client.isRunning();
     }
     
+    public boolean clientIsGameRun(){
+        return client.isGameRun();
+    }
+    
     public boolean clientIsWinning(){
         return client.isWinning();
     }
@@ -79,6 +83,14 @@ public class SceneManager {
     
     public void clientJoinDuelGame(int id){
         client.clientJoinDuelGame(id);
+    }
+    
+    public void clientResetGame(){
+        client.resetGame();
+    }
+    
+    public void clientStop(){
+        client.stop();
     }
     
     public Map<Integer,Integer> clientgetRooms(){
