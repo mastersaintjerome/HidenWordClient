@@ -38,21 +38,19 @@ public class SceneBuilder {
         updateHidenWord = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                if(manager.clientIsGameRun()){
-                    manager.setHidenWord();
-                    if(manager.clientIsWinning()){
-                        Platform.runLater(new Runnable() {
-                            @Override public void run() {
-                                manager.victoryScene(manager.getStage());
-                            }
-                        });
-                    }else if(manager.clientIsLost()){
-                        Platform.runLater(new Runnable() {
-                            @Override public void run() {
-                                manager.defeatScene(manager.getStage());
-                            }
-                        });
-                    }
+                manager.setHidenWord();
+                if(manager.clientIsWinning()){
+                    Platform.runLater(new Runnable() {
+                        @Override public void run() {
+                            manager.victoryScene(manager.getStage());
+                        }
+                    });
+                }else if(manager.clientIsLost()){
+                    Platform.runLater(new Runnable() {
+                        @Override public void run() {
+                            manager.defeatScene(manager.getStage());
+                        }
+                    });
                 }
             }
         });
