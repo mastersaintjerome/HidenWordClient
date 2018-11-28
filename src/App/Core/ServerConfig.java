@@ -7,7 +7,7 @@
 package App.Core;
 
 /**
- *
+ * Server Configuration
  * @author Gaëtan Perrot, Barbarian
  */
 public class ServerConfig {

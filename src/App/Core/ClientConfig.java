@@ -7,7 +7,7 @@
 package App.Core;
 
 /**
- *
+ * Client configuration
  * @author Gaëtan Perrot, Barbarian
  */
 public class ClientConfig {
