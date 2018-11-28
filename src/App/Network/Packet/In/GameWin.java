@@ -25,8 +25,9 @@ public class GameWin implements PacketHandler{
     @Override
     public void handle(Client client, String packet) {
         String[] parts = packet.split(" ", 2);
-        String session = parts[1];
-        logger.log(Level.INFO, "Session : {0} WIN !", session);
+        String searchedWord = parts[1];
+        logger.log(Level.INFO, "New searchedWord : {0}", searchedWord);
+        client.setSearchWord(searchedWord);
         client.setGameRun(false);
         client.setPlayerGameState(Client.PlayerGameState.WIN);
     }

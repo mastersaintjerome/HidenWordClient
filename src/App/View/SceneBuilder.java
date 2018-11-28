@@ -65,13 +65,13 @@ public class SceneBuilder {
 
             final KeyBoardButton btn = new KeyBoardButton(c);
 
-            btn.setPrefSize(35, 30);
+            btn.setPrefSize(45, 45);
 
             if (i % 7 == 0) {
                 ecartX = 0;
                 ecartY += 1;
             }
-            btn.setLayoutPositionWithText(initPosX + (35 * ecartX++), initPosY + (30 * ecartY), s);
+            btn.setLayoutPositionWithText(initPosX + (45 * ecartX++), initPosY + (45 * ecartY), s);
             btn.setOnAction(new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
                     if (manager.clientIsRunning()) {
@@ -444,9 +444,6 @@ public class SceneBuilder {
 
         createTextInArea(root, "Mot Mystere", 130, height / 4 + 25, 60);
         createMenuButtons(primaryStage, root);
-
-        addVictoryButton(primaryStage, root);
-        addDefeatButton(primaryStage, root);
 
         return MenuScene;
     }

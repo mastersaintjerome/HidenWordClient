@@ -212,15 +212,15 @@ public class SceneManager {
     	builder = new SceneBuilder(this);
     	setStage(primaryStage);
     	
-        MenuScene = builder.createMenuScene(primaryStage, 600, 300, Color.CADETBLUE);
-        GameChooseScene = builder.createGameChooseScene(primaryStage, 600, 300, Color.CADETBLUE);
-        RoomChooserScene = builder.createRoomChooserScene(primaryStage, 600, 300, Color.CADETBLUE, crc);
-        WaitingScene = builder.createWaitingScene(primaryStage, 600, 300, Color.CADETBLUE, joueursPresents);
-        SingleGameScene = builder.createSingleGameScene(primaryStage, 600, 300, Color.CADETBLUE);
-        MultiGameScene = builder.createMultiGameScene(primaryStage, 600, 300, Color.CADETBLUE);
-        ErrorScene = builder.createErrorScene(primaryStage, 600, 300, Color.CRIMSON);
-        VictoryScene = builder.createVictoryScene(primaryStage, 600, 300, Color.CADETBLUE);
-        DefeatScene = builder.createDefeatScene(primaryStage, 600, 300, Color.CADETBLUE);
+        MenuScene = builder.createMenuScene(primaryStage, 600, 400, Color.CADETBLUE);
+        GameChooseScene = builder.createGameChooseScene(primaryStage, 600, 400, Color.CADETBLUE);
+        RoomChooserScene = builder.createRoomChooserScene(primaryStage, 600, 400, Color.CADETBLUE, crc);
+        WaitingScene = builder.createWaitingScene(primaryStage, 600, 400, Color.CADETBLUE, joueursPresents);
+        SingleGameScene = builder.createSingleGameScene(primaryStage, 600, 400, Color.CADETBLUE);
+        MultiGameScene = builder.createMultiGameScene(primaryStage, 600, 400, Color.CADETBLUE);
+        ErrorScene = builder.createErrorScene(primaryStage, 600, 400, Color.CRIMSON);
+        VictoryScene = builder.createVictoryScene(primaryStage, 600, 400, Color.CADETBLUE);
+        DefeatScene = builder.createDefeatScene(primaryStage, 600, 400, Color.CADETBLUE);
         
         setScene(primaryStage, MenuScene);
         primaryStage.show();
